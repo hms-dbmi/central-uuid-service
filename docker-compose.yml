@@ -1,0 +1,32 @@
+version: '3'
+services:
+
+  picsureauth:
+    build:
+      context: uuid-rest-service
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - 8080:8080
+      - 8787:8787
+    networks:
+      - public
+
+  db:
+    build:
+      context: uuid-db
+      dockerfile: Dockerfile
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=uuid_service
+    restart: always
+    expose:
+      - 3306
+    ports:
+      - 3306:3306
+    networks:
+      - public
+
+networks:
+  public:
